@@ -28,8 +28,14 @@ export default function Home() {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationLoading, setLocationLoading] = useState(false);
 
+  // Fetch cafes + auto-refresh every 5 minutes
   useEffect(() => {
-    fetch('/api/cafes').then((r) => r.json()).then((d) => { setCafes(d.cafes); if (d.weather) setWeather(d.weather); }).catch(console.error);
+    const load = () => {
+      fetch('/api/cafes').then((r) => r.json()).then((d) => { setCafes(d.cafes); if (d.weather) setWeather(d.weather); }).catch(console.error);
+    };
+    load();
+    const interval = setInterval(load, 5 * 60 * 1000);
+    return () => clearInterval(interval);
   }, [setCafes]);
 
   const nameResults = useMemo(() => activeSearch === 'name' && nameQuery.trim() ? searchCafesByName(cafes, nameQuery) : [], [cafes, nameQuery, activeSearch]);

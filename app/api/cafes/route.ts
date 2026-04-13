@@ -1,36 +1,35 @@
 import { NextResponse } from 'next/server';
-import { berlinCafes } from '@/data/berlin-cafes';
+import { fetchBerlinCafes } from '@/lib/cafes/overpass';
 import { fetchWeather, getCurrentWeather } from '@/lib/weather/open-meteo';
 import { getSunPosition, getWeatherFactor, computeSunScore } from '@/lib/sun/calculator';
 
 export async function GET() {
   try {
-    const weatherData = await fetchWeather();
+    // Fetch cafes (live from Overpass, 24h cache) and weather in parallel
+    const [cafes, weatherData] = await Promise.all([
+      fetchBerlinCafes(),
+      fetchWeather(),
+    ]);
+
     const currentWeather = getCurrentWeather(weatherData);
     const now = new Date();
 
-    const cafesWithSun = berlinCafes.map((cafe) => {
+    const cafesWithSun = cafes.map((cafe) => {
       const sunPos = getSunPosition(now, cafe.lat, cafe.lng);
       const wFactor = getWeatherFactor(currentWeather.cloudCover, currentWeather.directRadiation);
       const sunScore = computeSunScore(sunPos, wFactor, currentWeather.cloudCover);
-
-      return {
-        ...cafe,
-        sunScore,
-      };
+      return { ...cafe, sunScore };
     });
 
     return NextResponse.json({
       cafes: cafesWithSun,
-      weather: {
-        cloudCover: currentWeather.cloudCover,
-        temperature: currentWeather.temperature,
-      },
+      weather: { cloudCover: currentWeather.cloudCover, temperature: currentWeather.temperature },
       timestamp: now.toISOString(),
     });
   } catch (error) {
     console.error('Failed to fetch cafes:', error);
-    // Fallback without weather
+    // Fallback: static data without weather
+    const { berlinCafes } = await import('@/data/berlin-cafes');
     const now = new Date();
     const cafesWithSun = berlinCafes.map((cafe) => {
       const sunPos = getSunPosition(now, cafe.lat, cafe.lng);

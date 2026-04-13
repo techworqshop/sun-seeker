@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { berlinCafes } from '@/data/berlin-cafes';
+import { fetchBerlinCafes } from '@/lib/cafes/overpass';
 import { fetchWeather } from '@/lib/weather/open-meteo';
 import { computeHourlyForecast } from '@/lib/sun/calculator';
 import { getShadowProfile } from '@/lib/sun/shadow-cache';
@@ -9,7 +9,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const cafe = berlinCafes.find((c) => c.id === id);
+  const cafes = await fetchBerlinCafes();
+  const cafe = cafes.find((c) => c.id === id);
 
   if (!cafe) {
     return NextResponse.json({ error: 'Cafe not found' }, { status: 404 });
