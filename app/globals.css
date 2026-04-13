@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFFBF7;
+  --foreground: #1A1612;
+
+  /* Sunrise palette — warm with real color */
+  --sun-bg: #FFFBF7;
+  --sun-cream: #FFF5EB;
+  --sun-peach: #FFDAB9;
+  --sun-coral: #A04B28;     /* Burnt sienna — hover */
+  --sun-amber: #C4682E;     /* Warm amber-brown — primary action */
+  --sun-orange: #B85C30;    /* Deep burnt orange — accent */
+  --sun-rose: #E8637A;
+  --sun-plum: #7C3A6B;
+  --sun-earth: #3D2E24;
+  --sun-text: #1A1612;
+  --sun-text-secondary: #8B7355;
+  --sun-glass: rgba(255, 255, 255, 0.6);
+  --sun-glass-border: rgba(255, 255, 255, 0.35);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-sun-cream: var(--sun-cream);
+  --color-sun-peach: var(--sun-peach);
+  --color-sun-coral: var(--sun-coral);
+  --color-sun-amber: var(--sun-amber);
+  --color-sun-orange: var(--sun-orange);
+  --color-sun-rose: var(--sun-rose);
+  --color-sun-plum: var(--sun-plum);
+  --color-sun-earth: var(--sun-earth);
+  --color-sun-text: var(--sun-text);
+  --color-sun-muted: var(--sun-text-secondary);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-bricolage);
+  --font-pixel: var(--font-silkscreen);
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-fade-in: fade-in 0.4s ease-out;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--sun-bg);
+  color: var(--sun-text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Hero — dark sunrise gradient */
+.hero-gradient {
+  background: linear-gradient(
+    160deg,
+    #0F0B09 0%,
+    #1A1210 20%,
+    #2D1B1A 40%,
+    #5C2A1E 60%,
+    #8C4425 80%,
+    #B85C30 100%
+  );
+}
+
+/* Frosted glass */
+.glass {
+  background: var(--sun-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--sun-glass-border);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glow {
+  box-shadow: 0 4px 30px rgba(184, 92, 48, 0.06), 0 0 60px rgba(196, 104, 46, 0.04);
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.maplibregl-ctrl-bottom-right,
+.maplibregl-ctrl-bottom-left {
+  opacity: 0.6;
 }
