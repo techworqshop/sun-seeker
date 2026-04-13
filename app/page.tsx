@@ -72,7 +72,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="max-w-xl mx-auto px-5 pb-16">
+      <div className="max-w-2xl mx-auto px-5 pb-16">
 
         {/* Hero — real sunrise */}
         <div className="hero-gradient rounded-b-[2.5rem] -mx-5 px-6 pt-12 pb-14 sm:pt-16 sm:pb-20 mb-10 relative overflow-hidden">

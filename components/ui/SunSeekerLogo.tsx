@@ -14,7 +14,7 @@ export function SunSeekerLogo({ size = 'md', variant = 'default', layout = 'hori
 
   if (layout === 'stacked') {
     return (
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-start -ml-1">
         <img
           src="/helios-logo.svg"
           alt="Sun Seeker"
