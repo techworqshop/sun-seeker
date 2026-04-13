@@ -49,7 +49,7 @@ export default function SunForecastChart({ forecast }: { forecast: HourlySunFore
               <span className={`text-[9px] font-medium relative z-10 ${
                 f.status === 'night' ? 'text-white/70' : f.status === 'sunny' ? 'text-amber-900/60' : 'text-stone-500/70'
               }`}>
-                {Math.round(f.temperature)}°
+                {Math.round(f.temperature)}°C
               </span>
             </div>
           );

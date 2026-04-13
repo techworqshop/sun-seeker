@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:overpass-api.de)",
+      "Bash(curl -s --max-time 90 'https://overpass-api.de/api/interpreter' --data-urlencode 'data=[out:json][timeout:90];area[\"name\"=\"Berlin\"][\"admin_level\"=\"4\"]->.berlin;\\(node[\"amenity\"=\"cafe\"][\"outdoor_seating\"=\"yes\"]\\(area.berlin\\);\\);out body 200;')",
+      "Bash(python3 -c ':*)",
+      "Bash(curl -s --max-time 120 -X POST 'https://overpass-api.de/api/interpreter' -d 'data=[out:json][timeout:120];area[name=\"Berlin\"][admin_level=4]->.b;node[amenity=cafe][outdoor_seating=yes]\\(area.b\\);out body 150;')",
+      "Bash(npx next:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(rm -f /Users/smnsays/Documents/Claude/Code/sunpoint/.git/index.lock)",
+      "Bash(gh auth:*)",
+      "Bash(brew install:*)",
+      "Bash(npm install:*)",
+      "Bash(curl -sL https://github.com/cli/cli/releases/download/v2.67.0/gh_2.67.0_macOS_arm64.zip -o /tmp/gh.zip)",
+      "Bash(unzip -o /tmp/gh.zip -d /tmp/gh)",
+      "Bash(ls /tmp/gh/*/bin/gh)",
+      "Bash(export PATH=\"/tmp/gh/gh_2.67.0_macOS_arm64/bin:$PATH\")",
+      "Bash(git remote:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

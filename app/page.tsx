@@ -72,7 +72,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="max-w-2xl mx-auto px-5 pb-16">
+      <div className="max-w-3xl mx-auto px-5 pb-16">
 
         {/* Hero — real sunrise */}
         <div className="hero-gradient rounded-b-[2.5rem] -mx-5 px-6 pt-12 pb-14 sm:pt-16 sm:pb-20 mb-10 relative overflow-hidden">
@@ -147,7 +147,7 @@ export default function Home() {
               <h2 className="font-display text-base font-bold text-sun-earth">{currentResults.length} result{currentResults.length !== 1 ? 's' : ''}</h2>
               <button onClick={() => { setActiveSearch('none'); setNameQuery(''); setZipQuery(''); }} className="font-pixel text-[10px] text-sun-coral hover:text-sun-orange transition-colors">Reset</button>
             </div>
-            <div className="flex flex-col gap-2">{currentResults.map((cafe) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">{currentResults.map((cafe) => (
               <CafeResultCard key={cafe.id} cafe={cafe}
                 distance={activeSearch === 'zip' && zipQuery ? (() => { const c = getZipCenter(zipQuery.trim()); return c ? haversineDistance(c[0], c[1], cafe.lat, cafe.lng) : undefined; })() : undefined}
                 onClick={() => handleCafeClick(cafe)} />
@@ -192,7 +192,7 @@ export default function Home() {
           </div>
 
           {activeSearch === 'sunny' && sunnyNearbyResults.length > 0 ? (
-            <div className="flex flex-col gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {!hasSunnyCafes && <div className="glass rounded-xl p-3 mb-1"><p className="text-xs text-sun-muted">No cafe has full sun right now.{sunnyRadius < 5000 && ' Try a larger radius?'}</p></div>}
               {sunnyNearbyResults.slice(0, 5).map((cafe) => (
                 <CafeResultCard key={cafe.id} cafe={cafe} distance={userLocation ? haversineDistance(userLocation.lat, userLocation.lng, cafe.lat, cafe.lng) : undefined} onClick={() => handleCafeClick(cafe)} />
@@ -201,7 +201,7 @@ export default function Home() {
           ) : activeSearch === 'sunny' && sunnyNearbyResults.length === 0 ? (
             <div className="glass-strong rounded-xl p-5 text-center"><p className="text-sm text-sun-muted">No cafes in this radius</p></div>
           ) : (
-            <div className="flex flex-col gap-2">{topSunnyCafes.map((cafe) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">{topSunnyCafes.map((cafe) => (
               <CafeResultCard key={cafe.id} cafe={cafe} onClick={() => handleCafeClick(cafe)} />
             ))}</div>
           )}
