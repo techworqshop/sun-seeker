@@ -9,10 +9,15 @@ const STATUS_CONFIG: Record<SunStatus, { emoji: string; label: string; color: st
   night: { emoji: '🌙', label: 'Night', color: 'text-sun-muted' },
 };
 
+function formatHour(h: number): string {
+  return `${h}:00`;
+}
+
 export default function CafeResultCard({ cafe, distance, onClick }: { cafe: Cafe; distance?: number; onClick?: () => void }) {
   const status = cafe.sunScore?.status ?? 'shade';
   const score = cafe.sunScore?.score ?? 0;
   const config = STATUS_CONFIG[status];
+  const bsw = cafe.bestSunWindow;
 
   return (
     <button onClick={onClick} className="w-full flex items-center gap-3 p-3 glass-strong rounded-xl hover:bg-white/80 transition-all text-left group">
@@ -21,7 +26,7 @@ export default function CafeResultCard({ cafe, distance, onClick }: { cafe: Cafe
       </div>
       <div className="flex-1 min-w-0">
         <h3 className="font-display font-bold text-sun-earth text-sm truncate">{cafe.name}</h3>
-        <div className="flex items-center gap-1.5 mt-0.5">
+        <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
           <span className={`font-pixel text-[9px] uppercase ${config.color}`}>{config.label}</span>
           <span className="text-[11px] text-sun-peach">·</span>
           <span className="text-[11px] text-sun-muted">{Math.round(score)}/100</span>
@@ -29,6 +34,12 @@ export default function CafeResultCard({ cafe, distance, onClick }: { cafe: Cafe
             <><span className="text-[11px] text-sun-peach">·</span><span className="text-[11px] text-sun-muted">{distance < 1000 ? `${Math.round(distance)}m` : `${(distance / 1000).toFixed(1)}km`}</span></>
           )}
         </div>
+        {/* Best sun window */}
+        {bsw && bsw.avgScore >= 30 && (
+          <p className="font-pixel text-[9px] text-sun-coral mt-0.5">
+            BEST SUN {formatHour(bsw.startHour)}–{formatHour(bsw.endHour)}
+          </p>
+        )}
         {cafe.address && <p className="text-[11px] text-sun-muted/60 truncate mt-0.5">{cafe.address}</p>}
       </div>
       <svg className="w-4 h-4 text-sun-peach group-hover:text-sun-orange transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">

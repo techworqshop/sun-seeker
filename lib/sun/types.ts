@@ -30,6 +30,7 @@ export interface Cafe {
   address?: string;
   seatingOrientation?: string;
   sunScore?: SunScore;
+  bestSunWindow?: { startHour: number; endHour: number; avgScore: number };
   hourlySunForecast?: HourlySunForecast[];
   votesSunny?: number;
   votesShade?: number;
